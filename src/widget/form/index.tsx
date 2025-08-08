@@ -17,20 +17,22 @@ export const FormCRM = () => {
     });
   }, []);
 
-  console.log(result, goods);
   return (
-    <form>
-      <div>
+    <form className={""}>
+      <div className={"width-full"}>
         <p>Касса:</p>
-        <Select>
+        <Select
+          style={{width: "100%"}}
+          className={"width-[100%] bg-red"}
+        >
           {result.map(({sales_manager}) => (
-            <Select.Option value={sales_manager}>{sales_manager}</Select.Option>
+            <Select.Option key={sales_manager} value={sales_manager}>{sales_manager}</Select.Option>
           ))}
         </Select>
       </div>
       <div>
         <p>Телефон:</p>
-        <Select>
+        <Select className={"width-full"}>
           {result.map(({phone}) => (
             <Select.Option value={phone}>{phone}</Select.Option>
           ))}
@@ -78,8 +80,11 @@ export const FormCRM = () => {
           <Select.Option value="sample">Sample</Select.Option>
         </Select>
       </div>
-      <div>
-        tovar
+      <div className={"border rounded-md shadow-md"}>
+        <div>
+          <span>Name</span>
+          <input type="text"/>
+        </div>
       </div>
       <button>Создать товар</button>
       <button>Создать и привезти</button>
