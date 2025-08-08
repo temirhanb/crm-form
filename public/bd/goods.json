@@ -1,0 +1,12 @@
+{
+  "goods":[
+    {
+      "price":500,
+      "quantity":1,
+      "unit":116,
+      "discount":0,
+      "sum_discounted":0,
+      "nomenclature":45690
+    }
+  ]
+}
