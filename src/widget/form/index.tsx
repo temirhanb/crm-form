@@ -64,16 +64,17 @@ export const FormCRM: React.FC<TProps> = ({closeForm}) => {
       settings: {
         date_next_created: null
       },
-      loyality_card_id: 22476,
+      loyality_card_id:22476,
       warehouse: 50,
       contragent: 355176,
       paybox: 759,
       organization: 38,
       status: false,
-      paid_rubles: values.goodsItems?.reduce((first, last) => (last.paid_rubles + first.paid_rubles), 0),
+      paid_rubles: values.goodsItems?.reduce((first, last) => (last.paid_rubles + first), 0),
       paid_lt: 0
     });
   };
+
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
     console.log("Failed:", errorInfo);
