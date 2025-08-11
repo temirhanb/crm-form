@@ -28,14 +28,10 @@ export default function Home() {
         onCancel={handleCancel}
         style={{top: 20}}
         footer={[
-          <Button key="submit" type="primary" onClick={handleOk}>
+          <Button key="submit" onClick={handleOk}>
             Cоздать продажи
           </Button>,
           <Button
-            key="link"
-            href="https://google.com"
-            target="_blank"
-            type="primary"
             onClick={handleOk}
           >
             Cоздать и привезти

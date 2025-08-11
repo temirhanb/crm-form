@@ -1,93 +1,74 @@
 "use client";
-import {Select} from "antd";
-import {useEffect, useState} from "react";
-import {fetchDataBase, fetchGoods} from "@/widget/form/api";
+import React from "react";
+import {FormsItem} from "@/entities/from/components/formsItem";
+import {Button, Flex, Input} from "antd";
+import {NomenclatureModal} from "@/widget/nomenclatureModal";
+import {TableForm} from "@/widget/tableForm";
+import {data} from "@/shared";
+import {useFormCRMHook} from "@/widget/form/hook/useFormCRMHook";
 
 export const FormCRM = () => {
-  // const file = await fs.readFile(process.cwd() + '/bd/example.json', 'utf8');
-  const [result, setResult] = useState([]);
-  const [goods, setGoods] = useState([]);
 
-  useEffect(() => {
-    fetchDataBase().then(res => {
-      setResult(res.result);
-    });
-    fetchGoods().then(res => {
-      setGoods(res.result);
-    });
-  }, []);
+  const {
+    tokenCashBox,
+    phonesNumbers,
+    receiptAccount,
+    organizations,
+    warehouses,
+    points,
+    money,
+    showModal,
+    value,
+    setValue,
+    setGoodsItems,
+    setDataSource,
+    goodsItems,
+    handleOk,
+    handleCancel,
+    isModalOpen
+  } = useFormCRMHook();
 
   return (
     <form className={""}>
-      <div className={"width-full"}>
-        <p>Касса:</p>
-        <Select
-          style={{width: "100%"}}
-          className={"width-[100%] bg-red"}
-        >
-          {result.map(({sales_manager}) => (
-            <Select.Option key={sales_manager} value={sales_manager}>{sales_manager}</Select.Option>
-          ))}
-        </Select>
+      <FormsItem name={"Касса"} result={tokenCashBox}/>
+      <FormsItem name={"Телефон"} result={phonesNumbers}/>
+      <FormsItem name={"Счет поступления"} result={receiptAccount}/>
+      <FormsItem name={"Организация"} result={organizations}/>
+      <FormsItem name={"Склад отгрузки"} result={warehouses}/>
+      <FormsItem name={"Баллами"} result={points}/>
+      <FormsItem name={"Рублями"} result={money}/>
+      <Flex style={{marginTop: 10}}>
+        <Button
+          onClick={showModal} type="primary"
+          style={{
+            borderRadius: "5px 0 0 5px"
+          }}
+        >Выбрать</Button>
+        <Input
+          style={{
+            borderRadius: "0 5px 5px 0"
+          }}
+          placeholder="Найти товар"
+          value={value}
+          onChange={e => {
+            const currValue = e.target.value;
+            setValue(currValue);
+            const filteredData = data.filter(entry =>
+              entry.name.includes(currValue)
+            );
+            setDataSource(filteredData);
+          }}
+        />
+      </Flex>
+      <div className={"border mt-[10px] rounded-md shadow-md overflow-y-scroll h-48 scrollbar"}>
+        <TableForm setGoodsItems={setGoodsItems} goodsItems={goodsItems}/>
       </div>
-      <div>
-        <p>Телефон:</p>
-        <Select className={"width-full"}>
-          {result.map(({phone}) => (
-            <Select.Option value={phone}>{phone}</Select.Option>
-          ))}
-        </Select>
-      </div>
-      <div>
-        <p>Счет поступления:</p>
-        <Select>
-          <Select.Option value="sample">Sample</Select.Option>
-        </Select>
-      </div>
-      <div>
-        <p>Организация:</p>
-        <Select>
-          {result.map(({organization}) => (
-            <Select.Option value={organization}>{organization}</Select.Option>
-          ))}
-        </Select>
-      </div>
-      <div>
-        <p>Склад отгрузки:</p>
-        <Select>
-          {result.map(({warehouse}) => (
-            <Select.Option value={warehouse}>{warehouse}</Select.Option>
-          ))}
-        </Select>
-      </div>
-
-      <div>
-        <p>Баллами:</p>
-        <Select>
-          <Select.Option value="sample">Sample</Select.Option>
-        </Select>
-      </div>
-      <div>
-        <p>Рублями:</p>
-        <Select>
-          <Select.Option value="sample">Sample</Select.Option>
-        </Select>
-      </div>
-
-      <div>
-        <p>Товар:</p>
-        <Select>
-          <Select.Option value="sample">Sample</Select.Option>
-        </Select>
-      </div>
-      <div className={"border rounded-md shadow-md"}>
-        <div>
-          <span>Name</span>
-          <input type="text"/>
-        </div>
-      </div>
-      <button>Создать товар</button>
-      <button>Создать и привезти</button>
+      <NomenclatureModal
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+        isModalOpen={isModalOpen}
+        setGoodsItems={setGoodsItems}
+      />
     </form>
   );
 };
