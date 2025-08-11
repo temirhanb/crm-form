@@ -1,74 +1,65 @@
-import {Button, Table, TableProps} from "antd";
+import {Button, FormInstance, Table, TableProps} from "antd";
 import {DataType} from "@/shared";
 import React from "react";
 import {DeleteOutlined} from "@ant-design/icons";
-import {TableCell, TableRow} from "@/entities/tableForm";
+import {useTableFormHook} from "@/widget/tableForm/hook/useTableFormHook";
 
 type TProps = {
   setGoodsItems: (item: DataType[]) => void,
   goodsItems: Array<DataType>
+  form: FormInstance<any>;
+  fieldName: string;
 }
 type ColumnTypes = Exclude<TableProps<DataType>["columns"], undefined>;
 
-export const TableForm: React.FC<TProps> = ({goodsItems, setGoodsItems}) => {
+export const TableForm: React.FC<TProps> = ({
+                                              goodsItems, setGoodsItems, form,
+                                              fieldName
+                                            }) => {
 
-  const handleDelete = (key: React.Key) => {
-    const newData = goodsItems.filter((item) => item.key !== key);
-    setGoodsItems(newData);
-  };
-  const handleSave = (row: DataType) => {
-    const newData = [...goodsItems];
-    const index = newData.findIndex((item) => row.key === item.key);
-    const item = newData[index];
-    newData.splice(index, 1, {
-      ...item,
-      ...row,
-    });
-    setGoodsItems(newData);
-  };
-  const columns: (ColumnTypes[number] & { dataIndex: string })[] = [
+  const {handleDelete, handleSave, components} = useTableFormHook(goodsItems, setGoodsItems, form,
+    fieldName);
+  const columns: (ColumnTypes[number] & { dataIndex: string, editable?: boolean })[] = [
     {
       title: "Название товара",
       dataIndex: "name",
       key: "name",
+      editable: true,
     },
     {
       title: "Сумма",
-      responsive: ["md"],
       dataIndex: "price",
       key: "price",
+      editable: true,
     },
     {
       title: "Скидка",
-      responsive: ["lg"],
-      dataIndex: "remains",
-      key: "remains",
-      // handleSave
+      dataIndex: "sum_discounted",
+      key: "sum_discounted",
+      editable: true,
     },
     {
       title: "Количество",
-      responsive: ["lg"],
-      dataIndex: "unit",
-      key: "unit",
+      dataIndex: "quantity",
+      key: "quantity",
+      editable: true,
     },
     {
       title: "Единица",
-      responsive: ["lg"],
-      dataIndex: "code",
-      key: "code",
-      // handleSave
+      dataIndex: "unit",
+      key: "unit",
+      editable: false,
     }, {
       title: "Итого",
-      responsive: ["lg"],
-      dataIndex: "end",
-      key: "end",
+      dataIndex: "paid_rubles",
+      key: "paid_rubles",
+      editable: true,
     },
     {
       title: "Действие",
       dataIndex: "action",
       key: "action",
       render: (el, record) => {
-        console.log(record, "record", el);
         return el !== undefined && <Button onClick={() => handleDelete(record.key)}><DeleteOutlined/></Button>;
       },
     },
@@ -76,27 +67,26 @@ export const TableForm: React.FC<TProps> = ({goodsItems, setGoodsItems}) => {
   ];
 
   const columnsEdit = columns.map((col) => {
-
+    if (!col.editable) {
+      return col;
+    }
     return {
       ...col,
       onCell: (record: DataType) => ({
         record,
         dataIndex: col.dataIndex,
+        editable: col.editable,
         title: col.title,
         handleSave,
       }),
     };
   });
-  const components = {
-    body: {
-      row: TableRow,
-      cell: TableCell,
-    },
-  };
 
   return (
     <Table<DataType>
       components={components}
+      bordered
+      scroll={{x: "100%"}}
       columns={columnsEdit as ColumnTypes}
       rowClassName={() => "editable-row"}
       dataSource={goodsItems}

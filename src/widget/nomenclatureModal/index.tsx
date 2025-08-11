@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Input, Modal, Table, TableColumnsType} from "antd";
+import {Button, FormInstance, Input, Modal, Table, TableColumnsType} from "antd";
 import {data, DataType} from "@/shared";
 import {useNomenclatureModalHook} from "./hook/useNomenclatureModalHook";
 
@@ -8,6 +8,8 @@ interface TProps {
   handleOk: () => void;
   isModalOpen: boolean;
   setGoodsItems: (el: any) => void;
+  form: FormInstance<any>;
+  fieldName: string;
 }
 
 export const NomenclatureModal: React.FC<TProps> = (
@@ -16,9 +18,12 @@ export const NomenclatureModal: React.FC<TProps> = (
     isModalOpen,
     handleOk,
     setGoodsItems,
+    form,
+    fieldName
   }) => {
   const {handlerAddGoods, value, setValue, setDataSource, dataSource} =
-    useNomenclatureModalHook(setGoodsItems, handleCancel);
+    useNomenclatureModalHook(setGoodsItems, handleCancel, form,
+      fieldName);
 
   const columns: TableColumnsType<DataType> = [
     Table.EXPAND_COLUMN,
@@ -29,25 +34,21 @@ export const NomenclatureModal: React.FC<TProps> = (
     },
     {
       title: "Цены",
-      responsive: ["md"],
       dataIndex: "price",
       key: "price",
     },
     {
       title: "Остатки",
-      responsive: ["lg"],
       dataIndex: "remains",
       key: "remains",
     },
     {
       title: "Единица",
-      responsive: ["lg"],
       dataIndex: "unit",
       key: "unit",
     },
     {
       title: "ШК",
-      responsive: ["lg"],
       dataIndex: "code",
       key: "code",
     },
@@ -89,7 +90,12 @@ export const NomenclatureModal: React.FC<TProps> = (
           setDataSource(filteredData);
         }}
       />
-      <Table<DataType> columns={columns} dataSource={dataSource}/>
+      <Table<DataType>
+        bordered
+        scroll={{x: "100%"}}
+        columns={columns}
+        dataSource={dataSource}
+      />
     </Modal>
   );
 };

@@ -3,49 +3,78 @@ import {DataType} from "csstype";
 export interface DataType {
   key: string;
   name: string;
-  price?: string | number;
+  quantity: number;
+  price:  number;
   remains?: string | number;
-  code?: string | number | null;
+  sum_discounted:  number;
+  unit?: string;
   action?: DataType;
   children?: DataType[];
+  paid_rubles: number;
 }
 
 export const data: DataType[] = [
   {
     key: "1",
     name: "Продукты",
-    remains: 10,
-    code: null,
+    remains: 12,
+    unit: "Кг",
+    quantity: 1,
+    sum_discounted: 10,
+    price: 500,
+    paid_rubles: 0,
     children: [
       {
         key: "11",
         name: "Яблоки",
         price: 500,
         remains: 12,
-        code: null,
+        quantity: 1,
+        sum_discounted: 0,
+        unit: "Кг",
+        paid_rubles: 0,
+        action: {
+          price: 500,
+          name: "Яблоки",
+          key: "11",
+          remains: 0,
+          quantity: 1,
+          sum_discounted: 0,
+          unit: "Кг",
+          paid_rubles: 0
+        },
       },
     ]
-
   },
   {
     key: "2",
     name: "Строй материалы",
     remains: 12,
-    code: null,
+    unit: "Штука",
+    price: 5100,
+    quantity: 1,
+    sum_discounted: 10,
+    paid_rubles: 0,
     children: [
       {
-        key: "11",
+        key: "22",
         name: "Цемент",
         action: {
           price: 5100,
           name: "Цемент",
           key: "22",
           remains: 12,
-          code: null,
+          quantity: 1,
+          sum_discounted: 10,
+          paid_rubles: 0,
+          unit: "Штука",
         },
         price: 5100,
+        paid_rubles: 0,
         remains: 12,
-        code: null,
+        quantity: 1,
+        sum_discounted: 10,
+        unit: "Штука",
       },
     ]
   },

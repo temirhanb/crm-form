@@ -3,7 +3,9 @@ import {data, DataType} from "@/shared";
 
 export const useNomenclatureModalHook = (
   setGoodsItems,
-  handleCancel
+  handleCancel,
+  form,
+  fieldName
 ) => {
   const [dataSource, setDataSource] = useState(data);
   const [value, setValue] = useState("");
@@ -15,6 +17,7 @@ export const useNomenclatureModalHook = (
         return prevItems;
       }
       handleCancel();
+      form.setFieldsValue({[fieldName]: [...prevItems, el]});
       return [...prevItems, el];
     });
   };

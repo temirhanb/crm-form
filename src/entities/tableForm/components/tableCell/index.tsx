@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useRef, useState} from "react";
 import {DataType} from "@/shared";
-import {Form, FormInstance, Input, InputRef} from "antd";
+import {Form, Input, InputRef} from "antd";
+import {EditableContext} from "@/widget/tableForm/hook/useTableFormHook";
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
@@ -13,8 +14,6 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   dataIndex: keyof DataType;
 }
 
-const EditableContext = React.createContext<FormInstance<any> | null>(null);
-
 export const TableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = (
   {
     title,
@@ -26,6 +25,7 @@ export const TableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = (
     ...restProps
   }
 ) => {
+
   const [editing, setEditing] = useState(false);
   const inputRef = useRef<InputRef>(null);
   const form = useContext(EditableContext)!;
@@ -44,7 +44,6 @@ export const TableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = (
   const save = async () => {
     try {
       const values = await form.validateFields();
-
       toggleEdit();
       handleSave({...record, ...values});
     } catch (errInfo) {
@@ -53,13 +52,11 @@ export const TableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = (
   };
 
   let childNode = children;
-
-  if (!editable) {
+  if (editable) {
     childNode = editing ? (
       <Form.Item
         style={{margin: 0}}
         name={dataIndex}
-        rules={[{required: true, message: `${title} is required.`}]}
       >
         <Input ref={inputRef} onPressEnter={save} onBlur={save}/>
       </Form.Item>

@@ -1,6 +1,6 @@
 "use client";
 import React, {useState} from "react";
-import {Button, Modal} from "antd";
+import {Modal} from "antd";
 import {FormCRM} from "@/widget";
 
 export default function Home() {
@@ -17,6 +17,7 @@ export default function Home() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   return (
     <main className="">
       <button onClick={showModal}>Open form</button>
@@ -27,18 +28,9 @@ export default function Home() {
         onOk={handleOk}
         onCancel={handleCancel}
         style={{top: 20}}
-        footer={[
-          <Button key="submit" onClick={handleOk}>
-            Cоздать продажи
-          </Button>,
-          <Button
-            onClick={handleOk}
-          >
-            Cоздать и привезти
-          </Button>,
-        ]}
+        footer={null}
       >
-        <FormCRM/>
+        <FormCRM closeForm={handleOk}/>
       </Modal>
     </main>
   );
