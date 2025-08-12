@@ -28,8 +28,8 @@ export const TableForm: React.FC<TProps> = ({
     },
     {
       title: "Сумма",
-      dataIndex: "price",
-      key: "price",
+      dataIndex: "prices",
+      key: "prices",
       editable: true,
     },
     {
@@ -40,14 +40,14 @@ export const TableForm: React.FC<TProps> = ({
     },
     {
       title: "Количество",
-      dataIndex: "quantity",
-      key: "quantity",
+      dataIndex: "unit",
+      key: "unit",
       editable: true,
     },
     {
       title: "Единица",
-      dataIndex: "unit",
-      key: "unit",
+      dataIndex: "unit_name",
+      key: "unit_name",
       editable: false,
     }, {
       title: "Итого",

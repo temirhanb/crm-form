@@ -1,6 +1,6 @@
 "use client";
 import React, {useState} from "react";
-import {Modal} from "antd";
+import {Button, Modal} from "antd";
 import {FormCRM} from "@/widget";
 
 export default function Home() {
@@ -19,8 +19,8 @@ export default function Home() {
   };
 
   return (
-    <main className="">
-      <button onClick={showModal}>Open form</button>
+    <main className=" flex items-center items-center w-full h-full">
+      <Button onClick={showModal}>Открыть окно</Button>
       <Modal
         title="Cоздать заказ"
         closable={{"aria-label": "Custom Close Button"}}

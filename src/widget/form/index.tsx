@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import {FormsItem} from "@/entities/from/components/formsItem";
-import {Button, Flex, Form, FormProps, Input} from "antd";
+import {Button, Flex, Form, FormProps, Input, Select} from "antd";
 import {NomenclatureModal} from "@/widget/nomenclatureModal";
 import {TableForm} from "@/widget/tableForm";
 import {data, DataType} from "@/shared";
@@ -10,12 +10,12 @@ import {addOrder} from "@/widget/form/api/addOrder";
 
 export type FieldType = {
   token?: string;
-  phone?: string;
-  receiptAccount?: string;
+  contragent?: string;
+  payboxs?: string;
   warehouses?: string;
   organizations?: string;
   money?: string;
-  points?: string;
+  priceType?: string;
   goodsItems?: DataType[];
 };
 
@@ -26,12 +26,11 @@ export const FormCRM: React.FC<TProps> = ({closeForm}) => {
 
   const {
     tokenCashBox,
-    phonesNumbers,
-    receiptAccount,
-    organizations,
-    warehouses,
-    points,
-    money,
+    payboxs,
+    contragents,
+    organization,
+    priceType,
+    warehouse,
     showModal,
     value,
     setValue,
@@ -46,35 +45,32 @@ export const FormCRM: React.FC<TProps> = ({closeForm}) => {
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     closeForm();
 
-    return addOrder({
+    return addOrder([{
       dated: Date.now(),
       operation: "Заказ",
       tax_included: true,
       tax_active: true,
       goods: values.goodsItems?.map(item => {
+        console.log(item);
         return {
-          unit: 116,
-          price: item.price,
-          quantity: item.quantity,
-          sum_discounted: item.sum_discounted,
-          discount: item.sum_discounted,
-          nomenclature: 46540,
+          discount: item.discount === null ? 0 : item.discount,
+          nomenclature: item.id,
+          price: item.prices === null ? 0 : item.prices,
+          quantity: 0,
+          sum_discounted: item.sum_discounted === null ? 0 : item.sum_discounted,
+          unit: item.unit === null ? 116 : item.unit
         };
       }),
       settings: {
         date_next_created: null
       },
-      loyality_card_id:22476,
-      warehouse: 50,
-      contragent: 355176,
-      paybox: 759,
-      organization: 38,
+      warehouse: values.warehouses,
+      contragent: values.contragent,
+      paybox: values.payboxs,
+      organization: values.organizations,
       status: false,
-      paid_rubles: values.goodsItems?.reduce((first, last) => (last.paid_rubles + first), 0),
-      paid_lt: 0
-    });
+    }]);
   };
-
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -89,45 +85,49 @@ export const FormCRM: React.FC<TProps> = ({closeForm}) => {
       name={"add-goods"}>
       <Form.Item<FieldType>
         name="token"
-        rules={[{required: true, message: "Пожалуйста укажите кассу!"}]}
+        rules={[{required: false, message: "Пожалуйста укажите токен кассы!"}]}
       >
-        <FormsItem name={"Касса"} form={form} fieldName={"token"} result={tokenCashBox}/>
+        <div className={"width-full mt-2"}>
+          <p>Токен кассы</p>
+          <Select
+            style={{width: "100%", fontSize: 14,}}
+          >
+            {tokenCashBox.map((item) => (
+              <Select.Option key={item.token} defaultValue={item.token} value={item.token}>{item[0]}</Select.Option>
+            ))}
+          </Select>
+        </div>
       </Form.Item>
       <Form.Item<FieldType>
-        name="phone"
+        name="contragent"
         rules={[{required: true, message: "Пожалуйста укажите телефон!"}]}
       >
-        <FormsItem name={"Телефон"} form={form} fieldName={"phone"} result={phonesNumbers}/>
+        <FormsItem name={"Контрагент"} formField={"contragent"} form={form} fieldName={"name"} result={contragents}/>
       </Form.Item>
       <Form.Item<FieldType>
-        name="receiptAccount"
+        name="payboxs"
         rules={[{required: true, message: "Пожалуйста укажите счет покупателя!"}]}
       >
-        <FormsItem name={"Счет поступления"} form={form} fieldName={"receiptAccount"} result={receiptAccount}/>
+        <FormsItem name={"Счет поступления"} formField={"payboxs"} form={form} fieldName={"name"} result={payboxs}/>
       </Form.Item>
       <Form.Item<FieldType>
         name="organizations"
         rules={[{required: true, message: "Пожалуйста укажите организацию!"}]}
       >
-        <FormsItem name={"Организация"} form={form} fieldName={"organizations"} result={organizations}/>
+        <FormsItem name={"Организация"} formField={"organizations"} form={form} fieldName={"type"}
+                   result={organization}/>
       </Form.Item>
       <Form.Item<FieldType>
         name="warehouses"
         rules={[{required: true, message: "Пожалуйста укажите склад!"}]}
       >
-        <FormsItem name={"Склад отгрузки"} form={form} fieldName={"warehouses"} result={warehouses}/>
+        <FormsItem name={"Склад отгрузки"} formField={"warehouses"} form={form} fieldName={"name"} result={warehouse}/>
       </Form.Item>
       <Form.Item<FieldType>
-        name="points"
+        name="priceType"
         rules={[{required: false, message: "Пожалуйста укажите баллы!"}]}
       >
-        <FormsItem name={"Баллами"} form={form} fieldName={"points"} result={points}/>
-      </Form.Item>
-      <Form.Item<FieldType>
-        name="money"
-        rules={[{required: false, message: "Пожалуйста укажите рубли!"}]}
-      >
-        <FormsItem name={"Рублями"} form={form} fieldName={"money"} result={money}/>
+        <FormsItem name={"Тип цены"} formField={"points"} form={form} fieldName={"name"} result={priceType}/>
       </Form.Item>
       <Flex style={{marginTop: 10}}>
         <Button

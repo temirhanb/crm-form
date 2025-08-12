@@ -1,5 +1,6 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {data, DataType} from "@/shared";
+import {apiFetchNomenclature} from "@/shared/api";
 
 export const useNomenclatureModalHook = (
   setGoodsItems,
@@ -10,6 +11,9 @@ export const useNomenclatureModalHook = (
   const [dataSource, setDataSource] = useState(data);
   const [value, setValue] = useState("");
 
+  useEffect(() => {
+    apiFetchNomenclature().then(res => setDataSource(res));
+  }, []);
   const handlerAddGoods = (el: DataType) => {
     setGoodsItems((prevItems: DataType[]) => {
       if (prevItems.find(({key}) => key === el.key)) {

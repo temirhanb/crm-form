@@ -1,16 +1,32 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {data, DataType} from "@/shared";
+import {apiFetchPaybox} from "@/shared/api/apiFetchPaybox";
+import {
+  apiFetchContragents,
+  apiFetchNomenclature,
+  apiFetchOrganizations,
+  apiFetchPriceType,
+  apiFetchWarehouse
+} from "@/shared/api";
 
 export const useFormCRMHook = () => {
   const [goodsItems, setGoodsItems] = useState<DataType[]>([]);
 
-  const tokenCashBox = [123456789, 987654321];
-  const points = [111, 222];
-  const money = [1121, 2222];
-  const phonesNumbers = [8999999, 8999666];
-  const warehouses = ["Москва", "Область"];
-  const organizations = ["ООО Рога и Копыта", "ЗАО Контора"];
-  const receiptAccount = ["Рублевый", "Иностранный"];
+  const tokenCashBox = [{token: "af1874616430e04cfd4bce30035789907e899fc7c3a1a4bb27254828ff304a77"}];
+
+  const [payboxs, setPayBox] = useState([]);
+  const [contragents, setContragents] = useState([]);
+  const [organization, setOrganizations] = useState([]);
+  const [priceType, setPriceType] = useState([]);
+  const [warehouse, setWarehouse] = useState([]);
+
+  useEffect(() => {
+    apiFetchPaybox().then(res => setPayBox(res));
+    apiFetchContragents().then(res => setContragents(res));
+    apiFetchOrganizations().then(res => setOrganizations(res));
+    apiFetchPriceType().then(res => setPriceType(res));
+    apiFetchWarehouse().then(res => setWarehouse(res));
+  }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -38,12 +54,11 @@ export const useFormCRMHook = () => {
     handleCancel,
     handleOk,
     tokenCashBox,
-    points,
-    money,
-    phonesNumbers,
-    warehouses,
-    organizations,
-    receiptAccount,
+    payboxs,
+    contragents,
+    organization,
+    priceType,
+    warehouse,
     goodsItems,
     setGoodsItems,
     isModalOpen

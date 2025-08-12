@@ -34,23 +34,27 @@ export const NomenclatureModal: React.FC<TProps> = (
     },
     {
       title: "Цены",
-      dataIndex: "price",
-      key: "price",
+      dataIndex: "prices",
+      key: "prices",
+      responsive: ["md"]
     },
     {
       title: "Остатки",
-      dataIndex: "remains",
-      key: "remains",
+      dataIndex: "unit",
+      key: "unit",
+      responsive: ["lg"]
     },
     {
       title: "Единица",
-      dataIndex: "unit",
-      key: "unit",
+      dataIndex: "unit_name",
+      key: "unit_name",
+      responsive: ["lg"]
     },
     {
       title: "ШК",
-      dataIndex: "code",
-      key: "code",
+      dataIndex: "tags",
+      key: "tags",
+      responsive: ["lg"]
     },
     {
       title: "Действие",
@@ -59,11 +63,9 @@ export const NomenclatureModal: React.FC<TProps> = (
       render: (el, record) => {
 
         return (
-          el !== undefined && (
-            <Button onClick={() => handlerAddGoods(record)} type="primary">
-              Выбрать
-            </Button>
-          )
+          <Button onClick={() => handlerAddGoods(record)} type="primary">
+            Выбрать
+          </Button>
         );
       },
     },
@@ -91,7 +93,7 @@ export const NomenclatureModal: React.FC<TProps> = (
         }}
       />
       <Table<DataType>
-        bordered
+        style={{marginTop: 10}}
         scroll={{x: "100%"}}
         columns={columns}
         dataSource={dataSource}
