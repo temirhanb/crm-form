@@ -45,18 +45,19 @@ export const FormCRM: React.FC<TProps> = ({closeForm}) => {
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     closeForm();
 
+    const paid = values.goodsItems?.reduce((first, last) => last.paid_rubles + first, 0);
     return addOrder([{
       operation: "Заказ",
       tax_included: true,
       tax_active: true,
       goods: values.goodsItems?.map(item => {
         console.log(item);
-        const discount = item.sum_discounted
-        const price = item.prices
-        const quantity = item.quantity
-        const sumDiscount = price * (discount / 100)
+        const discount = item.sum_discounted;
+        const price = item.prices;
+        const quantity = item.quantity;
+        const sumDiscount = price * (discount / 100);
         return {
-          discount: !discount  ? 0 : Number(discount),
+          discount: !discount ? 0 : Number(discount),
           nomenclature: item.id,
           price: !price ? 0 : Number(price),
           quantity: !quantity ? 0 : Number(quantity),
@@ -68,7 +69,7 @@ export const FormCRM: React.FC<TProps> = ({closeForm}) => {
       warehouse: values.warehouses,
       contragent: values.contragent,
       paid_lt: 0,
-      paid_rubles: "0.00",
+      paid_rubles: String(paid),
       paybox: values.payboxs,
       organization: values.organizations,
       status: false,

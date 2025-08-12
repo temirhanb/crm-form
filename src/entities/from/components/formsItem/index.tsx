@@ -11,7 +11,6 @@ type TProps = {
 export const FormsItem: React.FC<TProps> = ({name, formField, fieldName, form, result}) => {
 
   const handlerChange = (value: string) => {
-    console.log("132321", value);
     form.setFieldsValue({[formField]: value});
   };
   return (
