@@ -54,10 +54,14 @@ export const TableForm: React.FC<TProps> = ({
             alignItems: "center"
           }}>
             <Button onClick={() => {
+              handlerEdit(record.id);
               setIsModalOpen(true);
-              handlerEdit(record.key);
-            }}><EditOutlined color={"cyan"}/></Button>
-            <Button onClick={() => handleDelete(record.key)}><DeleteOutlined/></Button>
+            }}>
+              <EditOutlined color={"cyan"}/>
+            </Button>
+            <Button onClick={() => handleDelete(record.key)}>
+              <DeleteOutlined/>
+            </Button>
           </div>
         );
       },

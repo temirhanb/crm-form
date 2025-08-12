@@ -53,7 +53,6 @@ export const TableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = (
 
   let childNode = children;
   if (editable) {
-    console.log(children);
     childNode = editing ? (
       <Form.Item
         style={{margin: 0}}

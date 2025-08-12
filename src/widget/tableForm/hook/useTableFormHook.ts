@@ -13,8 +13,8 @@ export const useTableFormHook = (goodsItems, setGoodsItems, form,
     const newData = goodsItems.filter((item) => item.key !== key);
     setGoodsItems(newData);
   };
-  const handlerEdit = (key: React.Key) => {
-    const newData = goodsItems.find((item) => item.key === key);
+  const handlerEdit = (key) => {
+    const newData = goodsItems.find((item) => item.id === key);
     setEditable(newData);
   };
   const handleSave = (row: DataType) => {

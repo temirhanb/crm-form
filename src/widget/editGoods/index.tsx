@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Input, Modal} from "antd";
 import {DataType} from "@/shared";
 
@@ -10,18 +10,18 @@ type TProps = {
   goodsItems: DataType[]
 }
 export const EditGoods: React.FC<TProps> = ({setGoodsItems, goodsItems, isModalOpen, setIsModalOpen, editableItem}) => {
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  console.log(editableItem);
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+
   const [valueName, setValueName] = useState(editableItem.name);
   const [valueDiscount, setValueDiscount] = useState(!editableItem.discount ? 0 : editableItem.discount);
   const [valuePrice, setValuePrice] = useState(!editableItem.prices ? 0 : editableItem.prices);
   const [valueQuantity, setValueQuantity] = useState(!editableItem.quantity ? 1 : editableItem.quantity);
-
+  const paid = (valuePrice * valueQuantity) - ((valuePrice * valueQuantity) * (valueDiscount / 100));
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const handlerChangeName = (e) => {
     setValueName(e.target.value);
   };
@@ -38,7 +38,6 @@ export const EditGoods: React.FC<TProps> = ({setGoodsItems, goodsItems, isModalO
     setValueQuantity(e.target.value);
   };
 
-  const paid = (valuePrice * valueQuantity) - ((valuePrice * valueQuantity) * (valueDiscount / 100));
   const handlerEditItem = (row) => {
     const newData: DataType[] = [...goodsItems];
     const index = newData.findIndex((item) => editableItem[0].id === item.id);
@@ -61,6 +60,13 @@ export const EditGoods: React.FC<TProps> = ({setGoodsItems, goodsItems, isModalO
     setGoodsItems(newData);
     handleOk();
   };
+
+  useEffect(() => {
+    setValueQuantity(!editableItem.quantity ? 1 : editableItem.quantity);
+    setValuePrice(!editableItem.prices ? 0 : editableItem.prices);
+    setValueDiscount(!editableItem.discount ? 0 : editableItem.discount);
+    setValueName(editableItem.name);
+  }, [editableItem.id]);
 
   return (
     <Modal

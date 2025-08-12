@@ -51,7 +51,6 @@ export const FormCRM: React.FC<TProps> = ({closeForm}) => {
       tax_included: true,
       tax_active: true,
       goods: values.goodsItems?.map(item => {
-        console.log(item);
         const discount = item.sum_discounted;
         const price = item.prices;
         const quantity = item.quantity;
