@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {DataType} from "@/shared";
 import {TableCell, TableRow} from "@/entities/tableForm";
 import {FormInstance} from "antd";
@@ -7,9 +7,15 @@ export const EditableContext = React.createContext<FormInstance<any> | null>(nul
 
 export const useTableFormHook = (goodsItems, setGoodsItems, form,
                                  fieldName) => {
+
+  const [editableItem, setEditable] = useState<DataType>();
   const handleDelete = (key: React.Key) => {
     const newData = goodsItems.filter((item) => item.key !== key);
     setGoodsItems(newData);
+  };
+  const handlerEdit = (key: React.Key) => {
+    const newData = goodsItems.find((item) => item.key === key);
+    setEditable(newData);
   };
   const handleSave = (row: DataType) => {
     const newData: DataType[] = [...goodsItems];
@@ -35,6 +41,6 @@ export const useTableFormHook = (goodsItems, setGoodsItems, form,
     },
   };
   return {
-    handleDelete, handleSave, components
+    handleDelete, editableItem, handlerEdit, handleSave, components
   };
 };

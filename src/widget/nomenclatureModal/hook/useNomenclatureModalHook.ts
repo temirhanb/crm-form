@@ -16,7 +16,7 @@ export const useNomenclatureModalHook = (
   }, []);
   const handlerAddGoods = (el: DataType) => {
     setGoodsItems((prevItems: DataType[]) => {
-      if (prevItems.find(({key}) => key === el.key)) {
+      if (prevItems.find(({id}) => id === el.id)) {
         handleCancel();
         return prevItems;
       }

@@ -40,24 +40,6 @@ export const NomenclatureModal: React.FC<TProps> = (
       responsive: ["md"]
     },
     {
-      title: "Остатки",
-      dataIndex: "unit",
-      key: "unit",
-      responsive: ["lg"]
-    },
-    {
-      title: "Единица",
-      dataIndex: "unit_name",
-      key: "unit_name",
-      responsive: ["lg"]
-    },
-    {
-      title: "ШК",
-      dataIndex: "tags",
-      key: "tags",
-      responsive: ["lg"]
-    },
-    {
       title: "Действие",
       dataIndex: "action",
       key: "action",
@@ -99,7 +81,6 @@ export const NomenclatureModal: React.FC<TProps> = (
       />
       <Table<DataType>
         style={{marginTop: 10}}
-        scroll={{x: "100%"}}
         columns={columns}
         dataSource={dataSource}
       />
