@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import {FormsItem} from "@/entities/from/components/formsItem";
-import {Button, Flex, Form, FormProps, Input, Select} from "antd";
+import {Button, Flex, Form, FormProps, Select} from "antd";
 import {NomenclatureModal} from "@/widget/nomenclatureModal";
 import {TableForm} from "@/widget/tableForm";
 import {DataType} from "@/shared";
@@ -133,24 +133,10 @@ export const FormCRM: React.FC<TProps> = ({closeForm}) => {
         <Button
           onClick={showModal} type="primary"
           style={{
-            borderRadius: "5px 0 0 5px"
+            width: "100%",
+            height: "40px"
           }}
-        >Выбрать</Button>
-        <Input
-          style={{
-            borderRadius: "0 5px 5px 0"
-          }}
-          placeholder="Найти товар"
-          value={value}
-          onChange={e => {
-            const currValue = e.target.value;
-            setValue(currValue);
-            const filteredData: DataType[] = goodsItems.filter(entry =>
-              entry.name.includes(currValue)
-            );
-            setDataSource(filteredData);
-          }}
-        />
+        >Выбрать Товар</Button>
       </Flex>
       <Form.Item<FieldType>
         name="goodsItems"

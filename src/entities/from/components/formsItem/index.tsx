@@ -22,7 +22,9 @@ export const FormsItem: React.FC<TProps> = ({name, formField, fieldName, form, r
         style={{width: "100%", fontSize: 14,}}
       >
         {result.map((item) => (
-          <Select.Option key={item.id} value={item.id}>{item[fieldName]}</Select.Option>
+          <Select.Option key={item.id} value={item.id}>
+            {item[fieldName]}
+          </Select.Option>
         ))}
       </Select>
     </div>

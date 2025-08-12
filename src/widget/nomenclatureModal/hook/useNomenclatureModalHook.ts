@@ -8,7 +8,7 @@ export const useNomenclatureModalHook = (
   form,
   fieldName
 ) => {
-  const [dataSource, setDataSource] = useState();
+  const [dataSource, setDataSource] = useState<DataType[]>([]);
   const [value, setValue] = useState("");
 
   useEffect(() => {

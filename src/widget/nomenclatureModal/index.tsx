@@ -1,7 +1,8 @@
 import React from "react";
 import {Button, FormInstance, Input, Modal, Table, TableColumnsType} from "antd";
-import {data, DataType} from "@/shared";
+import {DataType} from "@/shared";
 import {useNomenclatureModalHook} from "./hook/useNomenclatureModalHook";
+import {apiFetchNomenclature} from "@/shared/api";
 
 interface TProps {
   handleCancel: () => void;
@@ -86,8 +87,12 @@ export const NomenclatureModal: React.FC<TProps> = (
         onChange={(e) => {
           const currValue = e.target.value;
           setValue(currValue);
-          const filteredData = data.filter((entry) =>
-            entry.name.includes(currValue)
+
+          if (currValue === "") {
+            apiFetchNomenclature().then(res => setDataSource(res));
+          }
+          const filteredData: DataType[] = dataSource.filter((entry) =>
+            entry.name.toUpperCase().includes(currValue.toUpperCase())
           );
           setDataSource(filteredData);
         }}
