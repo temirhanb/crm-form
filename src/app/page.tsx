@@ -19,8 +19,13 @@ export default function Home() {
   };
 
   return (
-    <main className=" flex items-center items-center w-full h-full">
-      <Button onClick={showModal}>Открыть окно</Button>
+    <main style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh"
+    }}>
+      <Button style={{width: 200, height: 50}} onClick={showModal}>Открыть окно</Button>
       <Modal
         title="Cоздать заказ"
         closable={{"aria-label": "Custom Close Button"}}
