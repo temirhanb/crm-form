@@ -4,7 +4,7 @@ import {FormsItem} from "@/entities/from/components/formsItem";
 import {Button, Flex, Form, FormProps, Input, Select} from "antd";
 import {NomenclatureModal} from "@/widget/nomenclatureModal";
 import {TableForm} from "@/widget/tableForm";
-import {data, DataType} from "@/shared";
+import {DataType} from "@/shared";
 import {useFormCRMHook} from "@/widget/form/hook/useFormCRMHook";
 import {addOrder} from "@/widget/form/api/addOrder";
 
@@ -46,26 +46,25 @@ export const FormCRM: React.FC<TProps> = ({closeForm}) => {
     closeForm();
 
     return addOrder([{
-      dated: Date.now(),
       operation: "Заказ",
       tax_included: true,
       tax_active: true,
       goods: values.goodsItems?.map(item => {
         console.log(item);
         return {
-          discount: item.discount === null ? 0 : item.discount,
+          discount: item.sum_discounted === null ? 0 : Number(item.sum_discounted),
           nomenclature: item.id,
-          price: item.prices === null ? 0 : item.prices,
-          quantity: 0,
-          sum_discounted: item.sum_discounted === null ? 0 : item.sum_discounted,
-          unit: item.unit === null ? 116 : item.unit
+          price: item.prices === null ? 0 : Number(item.prices),
+          quantity: item.quantity === null ? 0 : Number(item.quantity),
+          sum_discounted: item.sum_discounted === null ? 0 : Number(item.sum_discounted),
+          unit: 116
         };
       }),
-      settings: {
-        date_next_created: null
-      },
+      settings: {},
       warehouse: values.warehouses,
       contragent: values.contragent,
+      paid_lt: 0,
+      paid_rubles: "0.00",
       paybox: values.payboxs,
       organization: values.organizations,
       status: false,
@@ -90,10 +89,11 @@ export const FormCRM: React.FC<TProps> = ({closeForm}) => {
         <div className={"width-full mt-2"}>
           <p>Токен кассы</p>
           <Select
+            defaultValue={tokenCashBox[0]}
             style={{width: "100%", fontSize: 14,}}
           >
             {tokenCashBox.map((item) => (
-              <Select.Option key={item.token} defaultValue={item.token} value={item.token}>{item[0]}</Select.Option>
+              <Select.Option key={item} defaultValue={item} value={item}>{item}</Select.Option>
             ))}
           </Select>
         </div>
@@ -145,7 +145,7 @@ export const FormCRM: React.FC<TProps> = ({closeForm}) => {
           onChange={e => {
             const currValue = e.target.value;
             setValue(currValue);
-            const filteredData = data.filter(entry =>
+            const filteredData: DataType[] = goodsItems.filter(entry =>
               entry.name.includes(currValue)
             );
             setDataSource(filteredData);

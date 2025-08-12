@@ -9,9 +9,7 @@ export const addOrder = async (order) => {
     }
   });
 
-  const dataString = JSON.stringify(data);
-
-  await alert(dataString);
+  await alert(JSON.stringify(data));
 
   return data;
 };

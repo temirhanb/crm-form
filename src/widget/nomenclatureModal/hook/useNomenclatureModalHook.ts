@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {data, DataType} from "@/shared";
+import {DataType} from "@/shared";
 import {apiFetchNomenclature} from "@/shared/api";
 
 export const useNomenclatureModalHook = (
@@ -8,7 +8,7 @@ export const useNomenclatureModalHook = (
   form,
   fieldName
 ) => {
-  const [dataSource, setDataSource] = useState(data);
+  const [dataSource, setDataSource] = useState();
   const [value, setValue] = useState("");
 
   useEffect(() => {

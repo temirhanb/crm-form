@@ -13,7 +13,9 @@ type TProps = {
 type ColumnTypes = Exclude<TableProps<DataType>["columns"], undefined>;
 
 export const TableForm: React.FC<TProps> = ({
-                                              goodsItems, setGoodsItems, form,
+                                              goodsItems,
+                                              setGoodsItems,
+                                              form,
                                               fieldName
                                             }) => {
 
@@ -40,8 +42,8 @@ export const TableForm: React.FC<TProps> = ({
     },
     {
       title: "Количество",
-      dataIndex: "unit",
-      key: "unit",
+      dataIndex: "quantity",
+      key: "quantity",
       editable: true,
     },
     {
@@ -60,7 +62,7 @@ export const TableForm: React.FC<TProps> = ({
       dataIndex: "action",
       key: "action",
       render: (el, record) => {
-        return el !== undefined && <Button onClick={() => handleDelete(record.key)}><DeleteOutlined/></Button>;
+        return <Button onClick={() => handleDelete(record.key)}><DeleteOutlined/></Button>;
       },
     },
 

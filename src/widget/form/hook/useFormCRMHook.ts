@@ -1,18 +1,12 @@
 import {useEffect, useState} from "react";
-import {data, DataType} from "@/shared";
+import {DataType} from "@/shared";
 import {apiFetchPaybox} from "@/shared/api/apiFetchPaybox";
-import {
-  apiFetchContragents,
-  apiFetchNomenclature,
-  apiFetchOrganizations,
-  apiFetchPriceType,
-  apiFetchWarehouse
-} from "@/shared/api";
+import {apiFetchContragents, apiFetchOrganizations, apiFetchPriceType, apiFetchWarehouse} from "@/shared/api";
 
 export const useFormCRMHook = () => {
   const [goodsItems, setGoodsItems] = useState<DataType[]>([]);
 
-  const tokenCashBox = [{token: "af1874616430e04cfd4bce30035789907e899fc7c3a1a4bb27254828ff304a77"}];
+  const tokenCashBox = ["af1874616430e04cfd4bce30035789907e899fc7c3a1a4bb27254828ff304a77"];
 
   const [payboxs, setPayBox] = useState([]);
   const [contragents, setContragents] = useState([]);
@@ -42,7 +36,7 @@ export const useFormCRMHook = () => {
     setIsModalOpen(false);
   };
 
-  const [dataSource, setDataSource] = useState(data);
+  const [dataSource, setDataSource] = useState<DataType[]>([]);
   const [value, setValue] = useState("");
 
   return {

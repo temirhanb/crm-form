@@ -53,6 +53,7 @@ export const TableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = (
 
   let childNode = children;
   if (editable) {
+    console.log(children);
     childNode = editing ? (
       <Form.Item
         style={{margin: 0}}
@@ -63,10 +64,10 @@ export const TableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = (
     ) : (
       <div
         className="editable-cell-value-wrap"
-        style={{paddingInlineEnd: 24}}
+        style={{padding: 5}}
         onClick={toggleEdit}
       >
-        {children}
+        {children === undefined ? 0 : children}
       </div>
     );
   }
