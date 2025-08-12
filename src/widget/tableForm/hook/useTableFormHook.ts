@@ -23,7 +23,7 @@ export const useTableFormHook = (goodsItems, setGoodsItems, form,
     const price: number = newData[index].prices;
     const quantity: number = newData[index].quantity;
     const discounted: number = newData[index].sum_discounted;
-    newData[index].paid_rubles = discounted > 0 ? quantity * price - ((quantity * price) / discounted) : quantity * price;
+    newData[index].paid_rubles = discounted > 0 ? quantity * price / (discounted / 100) : quantity * price;
     form.setFieldsValue({[fieldName]: newData});
     setGoodsItems(newData);
   };

@@ -51,12 +51,16 @@ export const FormCRM: React.FC<TProps> = ({closeForm}) => {
       tax_active: true,
       goods: values.goodsItems?.map(item => {
         console.log(item);
+        const discount = item.sum_discounted
+        const price = item.prices
+        const quantity = item.quantity
+        const sumDiscount = price * (discount / 100)
         return {
-          discount: item.sum_discounted === null ? 0 : Number(item.sum_discounted),
+          discount: !discount  ? 0 : Number(discount),
           nomenclature: item.id,
-          price: item.prices === null ? 0 : Number(item.prices),
-          quantity: item.quantity === null ? 0 : Number(item.quantity),
-          sum_discounted: item.sum_discounted === null ? 0 : Number(item.sum_discounted),
+          price: !price ? 0 : Number(price),
+          quantity: !quantity ? 0 : Number(quantity),
+          sum_discounted: !sumDiscount ? 0 : Number(sumDiscount),
           unit: 116
         };
       }),
