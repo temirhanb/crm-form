@@ -40,7 +40,7 @@ export const EditGoods: React.FC<TProps> = ({setGoodsItems, goodsItems, isModalO
 
   const handlerEditItem = (row) => {
     const newData: DataType[] = [...goodsItems];
-    const index = newData.findIndex((item) => editableItem[0].id === item.id);
+    const index = newData.findIndex((item) => editableItem.id === item.id);
     const item = newData[index];
     newData.splice(index, 1, {
       ...item,
@@ -56,7 +56,7 @@ export const EditGoods: React.FC<TProps> = ({setGoodsItems, goodsItems, isModalO
     handleOk();
   };
   const handlerDeleteItem = (row) => {
-    const newData = goodsItems.filter(item => item.id !== editableItem[0].id);
+    const newData = goodsItems.filter(item => item.id !== editableItem.id);
     setGoodsItems(newData);
     handleOk();
   };
@@ -81,29 +81,29 @@ export const EditGoods: React.FC<TProps> = ({setGoodsItems, goodsItems, isModalO
         <Button variant="solid" color={"danger"} onClick={handlerDeleteItem}>Удалить</Button>
       ]}
     >
-      <div>
+      <div style={{marginTop: 10}}>
         <span>Название</span>
         <Input onChange={handlerChangeName} value={valueName}/>
       </div>
-      <div>
+      <div style={{marginTop: 10}}>
         <span>Сумма</span>
         <Input onChange={handlerChangePrice} value={valuePrice}/>
       </div>
-      <div>
+      <div style={{marginTop: 10}}>
         <span>Скидка</span>
         <Input onChange={handlerChangeDiscount} value={valueDiscount}/>
       </div>
-      <div>
+      <div style={{marginTop: 10}}>
         <span>Количество</span>
         <Input onChange={handlerChangeQuantity} value={valueQuantity}/>
       </div>
-      <div>
+      <div style={{marginTop: 10}}>
         <span>Еденица</span>
         <Input disabled={true} value={editableItem.unit_name}/>
       </div>
-      <div>
-        <h1>Итого:</h1>
-        <span>{valueDiscount !== null ? paid : valuePrice * valueQuantity}</span>
+      <div style={{display: "flex", alignItems: "center"}}>
+        <h1 style={{fontSize: "24px", marginRight: "10px"}}>Итого:</h1>
+        <span style={{fontSize: "20px",}}>{valueDiscount !== null ? paid : valuePrice * valueQuantity}</span>
       </div>
     </Modal>
   );
